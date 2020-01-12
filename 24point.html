@@ -8,7 +8,84 @@
     <meta content="no-transform" http-equiv="Cache-Control" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <style type="text/css">
+        .selDiv {
+            position: absolute;
+            border-style: solid;
+            border-width: 1px;
+            border-color: red;
+            padding: 10px;
+        }
 
+        .d1 {
+            left: 2px;
+        }
+
+        .d2 {
+            left: 140px;
+            /*(108+10)*1+2*/
+        }
+
+        .d3 {
+            left: 278px;
+        }
+
+        .d4 {
+            left: 416px;
+        }
+
+        .pock {
+            width: 108px;
+            height: 150px;
+            background-image: url(./24.png);
+            background-repeat: no-repeat;
+        }
+
+        .pockBlank {
+            width: 108px;
+            height: 150px;
+        }
+
+        .p1 {
+            background-position: -3px -2px;
+        }
+
+        .p2 {
+            background-position: -124px -2px;
+        }
+
+        .p3 {
+            background-position: -246px -2px;
+        }
+
+        .p4 {
+            background-position: -368px -2px;
+        }
+
+        .p5 {
+            background-position: -489px -2px;
+        }
+
+        .p6 {
+            background-position: -3px -161px;
+        }
+
+        .p7 {
+            background-position: -124px -161px;
+        }
+
+        .p8 {
+            background-position: -246px -161px;
+        }
+
+        .p9 {
+            background-position: -367px -161px;
+        }
+
+        .p10 {
+            background-position: -489px -161px;
+        }
+    </style>
     <script type="text/javascript">
         function dataWarp(...num) {
             return num.map((a) => ({
@@ -76,8 +153,28 @@
             get24(num[0].value, num[1].value, num[2].value, num[3].value);
         }
 
+        var pkIdx = 0;
+        var numVal = [0, 0, 0, 0];
         function onAreaClick(a) {
-            alert(a.id);
+            var selPock1 = document.getElementsByName("selPock")[pkIdx];
+            selPock1.classList.value = "";
+            selPock1.classList.add("pock");
+            selPock1.classList.add("p" + a.id);
+            numVal[pkIdx] = a.id;
+            pkIdx++;
+            if (pkIdx >= 4) {
+                document.getElementById("txtArea1").innerHTML = "";
+                get24(numVal[0], numVal[1], numVal[2], numVal[3]);
+                pkIdx = 0;
+            }
+        }
+
+        function clear1() {
+            document.getElementsByName("selPock").forEach(e => {
+                e.classList.value = "pockBlank";
+            });
+            document.getElementById("txtArea1").innerHTML = "";
+            pkIdx = 0;
         }
     </script>
 </head>
@@ -96,12 +193,30 @@
         <area shape="rect" id="9" coords="367, 160, 473, 312" onclick="onAreaClick(this);" />
         <area shape="rect" id="10" coords="489, 160, 595, 312" onclick="onAreaClick(this);" />
     </map>
-    <input type="text" name="num1" value="1" />
-    <input type="text" name="num1" value="1" />
-    <input type="text" name="num1" value="1" />
-    <input type="text" name="num1" value="1" />
-    <input type="button" onclick="btnClick();" value="cacl" />
-
-    <br>
-    <textarea id="txtArea1" rows="10" value=""></textarea>
+    <div style="position: relative; height: 182px;">
+        <div class="selDiv d1">
+            <div class="pockBlank" name="selPock"></div>
+        </div>
+        <div class="selDiv d2">
+            <div class="pockBlank" name="selPock"></div>
+        </div>
+        <div class="selDiv d3">
+            <div class="pockBlank" name="selPock"></div>
+        </div>
+        <div class="selDiv d4">
+            <div class="pockBlank" name="selPock"></div>
+        </div>
+    </div>
+    <div style="position: relative;">
+        <textarea id="txtArea1" rows="10" value=""></textarea>
+        <br>
+        <input type="button" onclick="clear1();" value="clear" />
+    </div>
+    <div style="display: none;">
+        <input type="text" name="num1" value="1" />
+        <input type="text" name="num1" value="1" />
+        <input type="text" name="num1" value="1" />
+        <input type="text" name="num1" value="1" />
+        <input type="button" onclick="btnClick();" value="cacl" />
+    </div>
 </body>
